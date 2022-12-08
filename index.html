@@ -1,0 +1,85 @@
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabuada 🏫</title>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body ng-app="myApp">
+<div ng-controller="table" class="container">
+    <h1>Tabuada 💯</h1>
+    <div class="row">
+        <button ng-click="novojogo()" class="btn btn-primary btn-sm">Novo jogo</button>
+        <span class="form-text">&nbsp;com as operações: &nbsp;</span>
+        <span class="form-text" style="margin-left: 20px">✖&nbsp;</span>
+        <input ng-model="qtlinhasmulti" class="form-control form-control-sm" style="width: 60px">
+        <span class="form-text" style="margin-left: 20px">➗&nbsp;</span>
+        <input ng-model="qtlinhasdiv" class="form-control form-control-sm" style="width: 60px">
+        <span class="form-text" style="margin-left: 20px">➕&nbsp;</span>
+        <input ng-model="qtlinhasadd" class="form-control form-control-sm" style="width: 60px">
+        <span class="form-text" style="margin-left: 20px">➖&nbsp;</span>
+        <input ng-model="qtlinhassub" class="form-control form-control-sm" style="width: 60px">
+        <span class="form-text" style="margin-left: 40px">Valendo: &nbsp;</span>
+        <input ng-model="valor" class="form-control form-control-sm" style="width: 60px">
+        <span class="form-text" style="margin-left: 3px">pontos</span>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-8">
+            <div class="row" style="margin-bottom: 60px">
+                <div class="col-sm-3" ng-repeat="op in operacoes">
+                    <table>
+                        <tr>
+                            <td>{{op[0]}}</td>
+                            <td ng-if="op[2] === 'multi'">&times;</td>
+                            <td ng-if="op[2] === 'div'">&divide;</td>
+                            <td ng-if="op[2] === 'add'">&plus;</td>
+                            <td ng-if="op[2] === 'sub'">&minus;</td>
+                            <td>{{op[1]}}</td>
+                            <td>=</td>
+                            <td>
+                                <input ng-model="respostas[$index]" class="form-control form-control-sm inputnumeral"
+                                       style="min-width: 40px" ng-attr-tabindex="{{calctab($index) + 3}}"
+                                       ng-blur="result($index)" ng-keydown="prox($event, $index)">
+                            </td>
+                            <td>
+                                <span style="width: 47px" ng-if="memoResult[$index] === true">✔</span>
+                                <span style="width: 47px" ng-if="memoResult[$index] === null">❔</span>
+                                <span style="width: 47px"
+                                      ng-if="memoResult[$index] === false || memoResult[$index] === undefined"
+                                      ng-style="{opacity: memoResult[$index] === false ? 1 : 0}">❌</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-if="operacoes.length" class="col-sm-4" style="position: relative">
+            <div style="position: sticky; top: 10px"><h3>Certas: {{certas()}} ({{certas() / fixedQtLinhas |
+                percent}})</h3>
+                <h3>Erradas: {{erradas()}} ({{erradas() / fixedQtLinhas | percent}})</h3>
+                <h3>Em branco: {{brancas()}} ({{brancas() / fixedQtLinhas | percent}})</h3>
+                <div style="width: 100%; height: 30px" ng-style="progresso()"></div>
+                <h3>Valor: {{fixedvalor | nota}}</h3>
+                <h3>Nota: {{(certas() / fixedQtLinhas) * fixedvalor | nota}}</h3>
+                <div class="card">
+                    <div class="card-header"><h4>Cronômetro</h4></div>
+                    <div class="card-body"><h1>{{cronometro | tempo}}</h1></div>
+                    <div class="card-footer">
+                        <span ng-click="cronostart()" style="font-size: xx-large; cursor: pointer"
+                              ng-if="!cronoplay">▶ <small>(P)</small></span>
+                        <span ng-click="cronorestart()" style="font-size: xx-large; cursor: pointer"
+                              ng-if="!cronoplay && cronometro > 0">↩ <small>(R)</small></span>
+                        <span ng-click="cronopause()" style="font-size: xx-large; cursor: pointer"
+                              ng-if="cronoplay">⏸ <small>(P)</small></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

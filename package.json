@@ -1,0 +1,10 @@
+{
+  "name": "Tabuada",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "^1.7.8",
+    "angularjs": "0.0.1",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1"
+  }
+}

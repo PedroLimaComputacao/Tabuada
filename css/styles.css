@@ -1,0 +1,6 @@
+table tr td {
+    min-width: 22px;
+}
+.headertable tr td {
+    min-width: 80px;
+}
